@@ -54,6 +54,8 @@ public class ForecastFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
+            FetchWeatherTask objFetchWeatherTask = new FetchWeatherTask();
+            objFetchWeatherTask.execute("94043");
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -94,12 +96,12 @@ public class ForecastFragment extends Fragment {
         return rootView;
     }
 
-    public class FetchWeatherTask extends AsyncTask<Void, Void, Void> {
+    public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(String... params) {
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -107,6 +109,7 @@ public class ForecastFragment extends Fragment {
 
             // Will contain the raw JSON response as a string.
             String forecastJsonStr = null;
+
 
             try {
                 // Construct the URL for the OpenWeatherMap query
@@ -160,5 +163,7 @@ public class ForecastFragment extends Fragment {
             }
             return null;
         }
+
+
     }
 }
